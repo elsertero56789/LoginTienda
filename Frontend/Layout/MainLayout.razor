@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Frontend.Services
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -8,14 +10,14 @@
         <div class="top-row px-4">
             <AuthorizeView>
                 <Authorized>
-                <p class="my-3 me-3">Hola, @context.User.Identity?.Name</p>
-                <p>
-                    <button class= "btn btn-primary">Logout</button>
-                </p>
+                    <p class="my-3 me-3">Hola, @context.User.Identity?.Name</p>
+                    <p>
+                        <button class= "btn btn-primary" @onclick="Logout">Logout</button>
+                    </p>
                 </Authorized>
                 <NotAuthorized>
                     <a class="btn btn-primary" href="Login">Login</a>
-                    <a class="btn btn-secondary" href="Register">Register</a>
+                    <a class="btn btn-secondary" @onclick="AbrirModal">Register</a>
                 </NotAuthorized>
             </AuthorizeView>
         </div>
@@ -25,3 +27,20 @@
         </article>
     </main>
 </div>
+
+@inject AuthenticationStateProvider provider
+@inject NavigationManager navManager
+@* @inject JSRuntime jSRuntime *@
+@code {
+    private void Logout()
+    {
+        var authStateProvider = (CustomAuthStateProvider)provider;
+        authStateProvider.Logout();
+        navManager.NavigateTo("/");
+    }
+    private void AbrirModal()
+    {
+        // Navegar a la ruta del modal
+        navManager.NavigateTo("/Register");
+    }
+}

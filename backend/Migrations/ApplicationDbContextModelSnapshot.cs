@@ -8,7 +8,7 @@ using backend.myStore.Context;
 
 #nullable disable
 
-namespace backend.myStore.Migrations
+namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

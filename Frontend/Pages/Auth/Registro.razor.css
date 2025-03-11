@@ -1,0 +1,37 @@
+﻿/* Animación de entrada */
+@@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animación de salida */
+@@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Ajustes específicos para el modal en RegistroModal.razor */
+.registro-modal {
+    display: none; /* Oculta el modal por defecto */
+    opacity: 0; /* Hace el modal transparente */
+    transition: opacity 0.5s ease-in-out; /* Agrega transición */
+}
+
+    .registro-modal.show {
+        display: block; /* Muestra el modal */
+        opacity: 1; /* Hace el modal completamente visible */
+        animation: fadeIn 0.5s ease-in-out; /* Aplica la animación de entrada */
+    }  
+    .registro-modal:not(.show) {
+        animation: fadeOut 0.5s ease-in-out; /* Aplica la animación de   */
+    }

@@ -1,0 +1,83 @@
+﻿@page "/Register"
+@using Frontend.Models
+@using Frontend.Services
+@using Microsoft.AspNetCore.Components.Forms
+@inject IJSRuntime JSRuntime
+
+<div class="modal registro-modal" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registroModalLabel">Registro Simple</h5>
+                <button type="button" class="btn-close" @onclick="CerrarModal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" id="email" class="form-control" @bind="email" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input id="password" type="password" class="form-control" @bind="password" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirme Contraseña</label>
+                    <input id="confirmPassword" type="password" class="form-control" @bind="confirmPassword" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" @onclick="registro">Registrar</button>
+                </div>
+                <hr />
+
+                @if(errors.Length > 0)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            @foreach(var error in errors)
+                            {
+                                <li>@error</li> 
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@inject AuthenticationStateProvider provider
+@inject NavigationManager navManager
+@code {
+    public string email = "";
+    public string password = "";
+    public string confirmPassword = "";
+    public string[] errors = [];
+    public async Task registro()
+    {
+        if(password != confirmPassword)
+        {
+            errors = ["El password y la confirmacion de este no tienen el mismo valor"];
+        }
+        var authStateProvider = (CustomAuthStateProvider)provider;
+        var registerDTO = new RegistroDTO
+        {
+            Email = email,
+            Password = password
+        };
+        var result = await authStateProvider.Registro(registerDTO);
+        if (result.Exito)
+        {
+            navManager.NavigateTo("/");
+
+        }
+        else
+            errors = result.Errors;
+    }
+    private void CerrarModal()
+    {
+        // Navegar de regreso a la página anterior
+        navManager.NavigateTo("/");
+    }
+
+}

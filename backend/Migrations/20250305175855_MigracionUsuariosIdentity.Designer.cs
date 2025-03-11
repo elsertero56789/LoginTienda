@@ -9,11 +9,11 @@ using backend.myStore.Context;
 
 #nullable disable
 
-namespace backend.myStore.Migrations
+namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250304042933_PrimeraMigracion")]
-    partial class PrimeraMigracion
+    [Migration("20250305175855_MigracionUsuariosIdentity")]
+    partial class MigracionUsuariosIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
